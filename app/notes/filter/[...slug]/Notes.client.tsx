@@ -1,6 +1,5 @@
 'use client';
 
-
 import { useQuery, keepPreviousData } from '@tanstack/react-query';
 
 import Pagination from '@/components/Pagination/Pagination';
@@ -12,12 +11,13 @@ import Modal from '@/components/Modal/Modal';
 import NoteForm from '@/components/NoteForm/NoteForm';
 import { useDebounce } from 'use-debounce';
 import { fetchNotes } from '@/lib/api';
+import Link from 'next/link';
 
 type NotesClientProps = {
-  tag ?: string;
+  tag?: string;
 };
 
-export default function NotesClient({tag }:NotesClientProps) {
+export default function NotesClient({ tag }: NotesClientProps) {
   const [page, setPage] = useState<number>(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [search, setSearch] = useState('');
@@ -27,8 +27,8 @@ export default function NotesClient({tag }:NotesClientProps) {
   // ****************************useQuery****************************
 
   const { data } = useQuery({
-    queryKey: ['notes', page, debounced,tag ],
-    queryFn: () => fetchNotes(page, debounced,tag ),
+    queryKey: ['notes', page, debounced, tag],
+    queryFn: () => fetchNotes(page, debounced, tag),
     placeholderData: keepPreviousData,
   });
 
@@ -61,9 +61,7 @@ export default function NotesClient({tag }:NotesClientProps) {
             onChangePage={setPage}
           />
         )}
-        <button className={css.button} onClick={openModal}>
-          Create note +
-        </button>
+        <Link href="/notes/action/create">Create note +</Link>
       </header>
       {notes.length > 0 && <NoteList notes={notes} />}
       {isModalOpen && (
@@ -74,3 +72,27 @@ export default function NotesClient({tag }:NotesClientProps) {
     </div>
   );
 }
+
+//  return (
+//     <div className={css.app}>
+//       <header className={css.toolbar}>
+//         <SearchBox valueSearch={search} onSearch={handleSearch} />
+//         {totalPages > 1 && (
+//           <Pagination
+//             totalPages={totalPages}
+//             page={page}
+//             onChangePage={setPage}
+//           />
+//         )}
+//         <button className={css.button} onClick={openModal}>
+//           Create note +
+//         </button>
+//       </header>
+//       {notes.length > 0 && <NoteList notes={notes} />}
+//       {isModalOpen && (
+//         <Modal onClose={closeModal}>
+//           <NoteForm onCancel={closeModal} />
+//         </Modal>
+//       )}
+//     </div>
+//   );
