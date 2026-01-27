@@ -5,6 +5,7 @@ import css from './NoteForm.module.css';
 import { useRouter } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
 import { createNote } from '@/lib/api';
+import { NoteTag } from '@/types/note';
 
 const NoteForm = () => {
   const router = useRouter();
@@ -22,7 +23,7 @@ const NoteForm = () => {
     const tag = formData.get('tag') as string;
 
 
-    mutate({ title, content, tag: tag as 'Todo' | 'Work' | 'Personal' | 'Meeting' | 'Shopping' });
+    mutate({ title, content, tag: tag as NoteTag });
   };
 
   return (
