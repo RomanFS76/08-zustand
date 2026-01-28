@@ -8,3 +8,9 @@ export interface Note {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface newNoteData {
+  title: '';
+  content: '';
+  tag: NoteTag;
+}
